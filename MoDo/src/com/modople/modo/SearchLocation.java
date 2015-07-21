@@ -27,15 +27,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+/*
+	장소검색 클래스
+ */
 public class SearchLocation extends Activity {
-	MapView mapView;
+	MapView mapView;			// 다음 지도
 	ViewGroup mapViewContainer;
-	ListView listView;
 	
-	EditText edit_search;
-	Button btn_search;
+	ListView listView;			// 장소 리스트뷰
 	
-	// 검색 데이터
+	EditText edit_search;		// 장소검색 editText
+	Button btn_search;			// 장소검색 button
+	
+	// 장소검색 결과? 데이터
 	private HashMap<Integer, Item> mTagItemMap = new HashMap<Integer, Item>();
 	
 	// 다음 지도 API 키
@@ -59,7 +63,7 @@ public class SearchLocation extends Activity {
         btn_search = (Button) findViewById(R.id.btn_search);		// 검색버튼
         listView = (ListView) findViewById(R.id.list_result);		// 검색 결과 리스트뷰
         
-        btn_search.setOnClickListener(new OnClickListener() {		// 검색 이벤트
+        btn_search.setOnClickListener(new OnClickListener() {		// 장소검색 이벤트
 			
 			@Override
 			public void onClick(View v) {
@@ -78,7 +82,7 @@ public class SearchLocation extends Activity {
 			
 				int page = 1;
 				
-				// 키워드 겁색 클래스 호출
+				//	키워드 검색 매소드 호출
 				Searcher searcher = new Searcher();
 				searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
 
@@ -86,7 +90,6 @@ public class SearchLocation extends Activity {
 					public void onSuccess(List<Item> itemList) { 		// 검색 성공 
 						mapView.removeAllPOIItems(); // 기존 검색 결과 삭제
 						showResult(itemList); // 검색 결과 보여줌 
-						
 					}
 
 					@Override
@@ -122,7 +125,7 @@ public class SearchLocation extends Activity {
 			poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
 			poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);				// 장소위치에 깃발 그리기
 			poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-			poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);		// 선택되면 빨간색으로 표
+			poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);		// 선택되면 빨간색으로 표시
 			poiItem.setCustomImageAutoscale(false);
 			poiItem.setCustomImageAnchor(0.5f, 1.0f);
 			
@@ -130,6 +133,7 @@ public class SearchLocation extends Activity {
 			mTagItemMap.put(poiItem.getTag(), item);
 		}
 		
+		// 검색 후 맨 첫번째로 검색된 장소로 카메라 이동
 		mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
 		
 		MapPOIItem[] poiItems = mapView.getPOIItems();

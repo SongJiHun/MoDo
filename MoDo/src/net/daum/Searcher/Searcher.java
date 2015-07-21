@@ -20,7 +20,9 @@ import java.util.Scanner;
 /*
 	장소 검색에 대한 처리 클래스
 
-	장소검색을 하고 나온 데이터를 
+	장소검색을 하고 나온 데이터를 Item 객체에 저장시켜줌.
+	
+	조회해온 데이터는 JSON으로 가져오고 카테고리 검색, 키워드 검색 등 지원..
  */
 
 public class Searcher {
